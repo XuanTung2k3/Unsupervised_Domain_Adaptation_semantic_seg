@@ -101,6 +101,7 @@ class DACS(UDADecorator):
             self.imnet_model = None
 
     def get_ema_model(self):
+        print(">-----------------------------------------------------------------------------<")
         print(self.ema_model)
         print(">-----------------------------------------------------------------------------<")
         exit()
