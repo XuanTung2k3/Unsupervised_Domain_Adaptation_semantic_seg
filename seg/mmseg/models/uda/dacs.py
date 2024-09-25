@@ -151,9 +151,16 @@ class DACS(UDADecorator):
                     (1 - alpha_teacher) * param[:].data[:]
         
         # Update buffers (e.g., running mean and variance in BatchNorm)
-        for ema_buffer, buffer in zip(self.get_ema_model().buffers(),
-                                      self.get_model().buffers()):
-            ema_buffer.data = buffer.data.clone()
+        # Get buffers from the model and the EMA model
+        model_buffers = dict(self.get_model().named_buffers())
+        ema_buffers = dict(self.get_ema_model().named_buffers())
+        # Update mean and variance buffers in the EMA model
+        for model, ema in zip(model_buffers.items(), ema_buffers.items()):
+            # teacher = alpha * teacher + (1 - alpha) * student
+            ema[1].data = alpha_teacher * ema[1].data + (1 - alpha_teacher) * model[1].data
+    
+
+
 
 
 
