@@ -101,6 +101,8 @@ class DACS(UDADecorator):
             self.imnet_model = None
 
     def get_ema_model(self):
+        print(self.ema_model)
+        exit()
         return get_module(self.ema_model)
 
     def get_imnet_model(self):
@@ -151,16 +153,9 @@ class DACS(UDADecorator):
                     (1 - alpha_teacher) * param[:].data[:]
         
         # Update buffers (e.g., running mean and variance in BatchNorm)
-        # Get buffers from the model and the EMA model
-        model_buffers = dict(self.get_model().named_buffers())
-        ema_buffers = dict(self.get_ema_model().named_buffers())
-        # Update mean and variance buffers in the EMA model
-        for model, ema in zip(model_buffers.items(), ema_buffers.items()):
-            # teacher = alpha * teacher + (1 - alpha) * student
-            ema[1].data = alpha_teacher * ema[1].data + (1 - alpha_teacher) * model[1].data
-    
-
-
+        for ema_buffer, buffer in zip(self.get_ema_model().buffers(),
+                                      self.get_model().buffers()):
+            ema_buffer.data = buffer.data.clone()
 
 
 
