@@ -10,7 +10,7 @@ workflow = [('train', 1)]
 cudnn_benchmark = True
 norm_cfg = dict(type='BN', requires_grad=True)
 find_unused_parameters = True
-checkpoint = '/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240925_0744_240925_1005_gta2cs_mic_daformer_bcb5a_4cc1e/iter_200.pth'
+checkpoint = 'https://download.openmmlab.com/mmsegmentation/v0.5/pretrain/segformer/mit_b5_20220624-658746d9.pth'
 model = dict(
     type='EncoderDecoder',
     pretrained=checkpoint,

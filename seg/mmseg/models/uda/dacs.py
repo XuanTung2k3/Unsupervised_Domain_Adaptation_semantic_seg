@@ -119,6 +119,22 @@ class DACS(UDADecorator):
             else:
                 mcp[i].data[:] = mp[i].data[:].clone()
 
+    # def _update_ema(self, iter):
+    #     if self.source_only:
+    #         return
+    #     alpha_teacher = min(1 - 1 / (iter + 1), self.alpha)
+    #     for ema_param, param in zip(self.get_ema_model().parameters(),
+    #                                 self.get_model().parameters()):
+    #         if not param.data.shape:  # scalar tensor
+    #             ema_param.data = \
+    #                 alpha_teacher * ema_param.data + \
+    #                 (1 - alpha_teacher) * param.data
+    #         else:
+    #             ema_param.data[:] = \
+    #                 alpha_teacher * ema_param[:].data[:] + \
+    #                 (1 - alpha_teacher) * param[:].data[:]
+
+
     def _update_ema(self, iter):
         if self.source_only:
             return
@@ -133,6 +149,13 @@ class DACS(UDADecorator):
                 ema_param.data[:] = \
                     alpha_teacher * ema_param[:].data[:] + \
                     (1 - alpha_teacher) * param[:].data[:]
+        
+        # Update buffers (e.g., running mean and variance in BatchNorm)
+        for ema_buffer, buffer in zip(self.get_ema_model().buffers(),
+                                      self.get_model().buffers()):
+            ema_buffer.data = buffer.data.clone()
+
+
 
     def train_step(self, data_batch, optimizer, **kwargs):
         """The iteration step during training.
