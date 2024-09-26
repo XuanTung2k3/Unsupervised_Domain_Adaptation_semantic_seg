@@ -139,12 +139,12 @@ class DACS(UDADecorator):
     #                 (1 - alpha_teacher) * param[:].data[:]
 
 
-    def _update_ema(self, cur_iter, max_iter):
+    def _update_ema(self, cur_iter):
         if self.source_only:
             return
         
         # Momentum annealing
-        momentum = 1. - (1. - self.alpha) * (math.cos(math.pi * cur_iter / float(max_iter)) + 1) / 2.0
+        momentum = min(1 - 1 / (cur_iter + 1), self.alpha)
         self.curr_m = momentum
         
         # Parameter update for EMA model
