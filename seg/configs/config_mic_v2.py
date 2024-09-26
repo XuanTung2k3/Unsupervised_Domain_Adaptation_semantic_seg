@@ -4,13 +4,13 @@ log_config = dict(
     hooks=[dict(type='TextLoggerHook', by_epoch=False)])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-load_from = None
-resume_from = None
+load_from = "/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240926_0353_240925_1005_gta2cs_mic_daformer_bcb5a_bd8fb/iter_300.pth"
+resume_from = "/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240926_0353_240925_1005_gta2cs_mic_daformer_bcb5a_bd8fb/iter_300.pth"
 workflow = [('train', 1)]
 cudnn_benchmark = True
 norm_cfg = dict(type='BN', requires_grad=True)
 find_unused_parameters = True
-checkpoint = 'https://download.openmmlab.com/mmsegmentation/v0.5/pretrain/segformer/mit_b5_20220624-658746d9.pth'
+checkpoint = '/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240926_0353_240925_1005_gta2cs_mic_daformer_bcb5a_bd8fb/iter_300.pth'
 model = dict(
     type='EncoderDecoder',
     pretrained=checkpoint,
