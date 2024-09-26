@@ -101,10 +101,10 @@ class DACS(UDADecorator):
             self.imnet_model = None
 
     def get_ema_model(self):
-        print(">-----------------------------------------------------------------------------<")
-        print(self.ema_model)
-        print(">-----------------------------------------------------------------------------<")
-        exit()
+        # print(">-----------------------------------------------------------------------------<")
+        # print(self.ema_model)
+        # print(">-----------------------------------------------------------------------------<")
+        # exit()
         return get_module(self.ema_model)
 
     def get_imnet_model(self):
@@ -139,25 +139,26 @@ class DACS(UDADecorator):
     #                 (1 - alpha_teacher) * param[:].data[:]
 
 
-    def _update_ema(self, iter):
+    def _update_ema(self, cur_iter, max_iter):
         if self.source_only:
             return
-        alpha_teacher = min(1 - 1 / (iter + 1), self.alpha)
-        for ema_param, param in zip(self.get_ema_model().parameters(),
-                                    self.get_model().parameters()):
-            if not param.data.shape:  # scalar tensor
-                ema_param.data = \
-                    alpha_teacher * ema_param.data + \
-                    (1 - alpha_teacher) * param.data
-            else:
-                ema_param.data[:] = \
-                    alpha_teacher * ema_param[:].data[:] + \
-                    (1 - alpha_teacher) * param[:].data[:]
         
-        # Update buffers (e.g., running mean and variance in BatchNorm)
-        for ema_buffer, buffer in zip(self.get_ema_model().buffers(),
-                                      self.get_model().buffers()):
-            ema_buffer.data = buffer.data.clone()
+        # Momentum annealing
+        momentum = 1. - (1. - self.alpha) * (math.cos(math.pi * cur_iter / float(max_iter)) + 1) / 2.0
+        self.curr_m = momentum
+        
+        # Parameter update for EMA model
+        state_dict_model = self.get_model().state_dict()
+        state_dict_ema = self.get_ema_model().state_dict()
+        
+        for (k_model, v_model), (k_ema, v_ema) in zip(state_dict_model.items(), state_dict_ema.items()):
+            assert k_model == k_ema, "state_dict names are different!"
+            assert v_model.shape == v_ema.shape, "state_dict shapes are different!"
+            if 'num_batches_tracked' in k_ema:
+                v_ema.copy_(v_model)
+            else:
+                v_ema.copy_(v_ema * momentum + (1. - momentum) * v_model)
+        
 
 
 
