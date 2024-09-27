@@ -4,13 +4,13 @@ log_config = dict(
     hooks=[dict(type='TextLoggerHook', by_epoch=False)])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-load_from = "/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240926_1646_anyName_2ec31/iter_15500.pth"
-resume_from = "/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240926_1646_anyName_2ec31/iter_15500.pth"
+load_from = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
+resume_from = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
 workflow = [('train', 1)]
 cudnn_benchmark = True
 norm_cfg = dict(type='BN', requires_grad=True)
 find_unused_parameters = True
-checkpoint = "/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240926_1646_anyName_2ec31/iter_15500.pth"
+checkpoint = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
 model = dict(
     type='EncoderDecoder',
     pretrained=checkpoint,
@@ -238,7 +238,7 @@ lr_config = dict(
 seed = 2
 n_gpus = 1
 gpu_model = 'NVIDIATITANRTX'
-runner = dict(type='IterBasedRunner', max_iters=20000)
+runner = dict(type='IterBasedRunner', max_iters=25000)
 checkpoint_config = dict(by_epoch=False, interval=100, max_keep_ckpts=1)
 evaluation = dict(interval=500, metric='mIoU')
 name = "anyName"
