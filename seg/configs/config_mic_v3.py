@@ -4,13 +4,13 @@ log_config = dict(
     hooks=[dict(type='TextLoggerHook', by_epoch=False)])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-load_from = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
-resume_from = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
+load_from = "/kaggle/input/mic-eman-2000-iter/240926_0353_240925_1005_gta2cs_mic_daformer_bcb5a_bd8fb/latest.pth"
+resume_from = "/kaggle/input/mic-eman-2000-iter/240926_0353_240925_1005_gta2cs_mic_daformer_bcb5a_bd8fb/latest.pth"
 workflow = [('train', 1)]
 cudnn_benchmark = True
 norm_cfg = dict(type='BN', requires_grad=True)
 find_unused_parameters = True
-checkpoint = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
+checkpoint = "/kaggle/input/mic-eman-2000-iter/240926_0353_240925_1005_gta2cs_mic_daformer_bcb5a_bd8fb/latest.pth"
 model = dict(
     type='EncoderDecoder',
     pretrained=checkpoint,
