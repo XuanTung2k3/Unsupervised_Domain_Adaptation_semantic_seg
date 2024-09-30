@@ -4,13 +4,13 @@ log_config = dict(
     hooks=[dict(type='TextLoggerHook', by_epoch=False)])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-load_from = "/kaggle/input/mic_eman_25000iter/pytorch/default/1/MIC_EMAN_25000iter/latest.pth"
-resume_from = "/kaggle/input/mic_eman_25000iter/pytorch/default/1/MIC_EMAN_25000iter/latest.pth"
+load_from = "/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240927_0259_anyName_7e3ac/iter_25000.pth"
+resume_from = "/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240927_0259_anyName_7e3ac/iter_25000.pth"
 workflow = [('train', 1)]
 cudnn_benchmark = True
 norm_cfg = dict(type='BN', requires_grad=True)
 find_unused_parameters = True
-checkpoint = "/kaggle/input/mic_eman_25000iter/pytorch/default/1/MIC_EMAN_25000iter/latest.pth"
+checkpoint = "/kaggle/working/Unsupervised_Domain_Adaptation_semantic_seg/seg/Unsupervised_Domain_Adaptation_semantic_seg/seg/work_dirs/local-basic/240927_0259_anyName_7e3ac/iter_25000.pth"
 model = dict(
     type='EncoderDecoder',
     pretrained=checkpoint,
