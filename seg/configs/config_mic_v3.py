@@ -4,13 +4,13 @@ log_config = dict(
     hooks=[dict(type='TextLoggerHook', by_epoch=False)])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-load_from = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
-resume_from = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
+load_from = "/kaggle/input/mic_eman_25000iter/pytorch/default/1/MIC_EMAN_25000iter/latest.pth"
+resume_from = "/kaggle/input/mic_eman_25000iter/pytorch/default/1/MIC_EMAN_25000iter/latest.pth"
 workflow = [('train', 1)]
 cudnn_benchmark = True
 norm_cfg = dict(type='BN', requires_grad=True)
 find_unused_parameters = True
-checkpoint = "/kaggle/input/mic-continue/240926_1646_anyName_2ec31/latest.pth"
+checkpoint = "/kaggle/input/mic_eman_25000iter/pytorch/default/1/MIC_EMAN_25000iter/latest.pth"
 model = dict(
     type='EncoderDecoder',
     pretrained=checkpoint,
@@ -174,8 +174,8 @@ data = dict(
     test=dict(
         type='CityscapesDataset',
         data_root='/kaggle/input/gtav-daformer/cityscapes',
-        img_dir='leftImg8bit/val',
-        ann_dir='gtFine/val',
+        img_dir='leftImg8bit/test',
+        ann_dir='gtFine/test',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
